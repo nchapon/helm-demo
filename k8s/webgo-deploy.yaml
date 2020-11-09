@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webgo-dep
+  labels:
+    app: webgo-demo
+spec:
+  replicas:
+  selector:
+    matchLabels:
+      app: webgo-demo
+  template:
+    metadata:
+      labels:
+        app: webgo-demo
+    spec:
+      containers:
+      - name: webgo
+        image: nchapon/webgo:1.0.0
+        ports:
+        - containerPort: 8888

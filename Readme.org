@@ -1,0 +1,51 @@
+* helm-demo
+
+Source code from this article :
+https://levelup.gitconnected.com/go-helm-kubernetes-docker-desktop-bf59f4eb9e9d
+** Build Image Docker
+#+begin_src shell
+docker build -t nchapon/webgo:1.0.0 -f docker/Dockerfile .
+#+end_src
+** Run Image Docker
+#+begin_src shell
+docker run -e CONFIG_MESSAGE=ping nchapon/webgo:1.0.0
+#+end_src
+** Liveness / Readiness Probe
+#+begin_src
+http :8888
+#+end_src
+** Kubernetes Deploy (without helm)
+*** Deployment
+#+begin_src shell
+kubectl apply -f webgo-deploy.yaml
+#+end_src
+
+Access the readiness
+#+begin_src shell
+kubectl port-forward deployment/webgo-dep 8888:8888
+#+end_src
+
+
+*** Service (LoadBalancer)
+
+#+begin_src
+kubectl apply -f webgo-svc.yaml
+#+end_src
+
+#+begin_src shell
+http localhost:80
+#+end_src
+** Deploy with helm
+*** Dry Run
+#+begin_src shell
+helm upgrade --install --values env/config.yaml webgo --dry-run --debug ./charts/webgo
+#+end_src
+
+*** Deploy
+#+begin_src shell
+helm upgrade --install --values env/config.yaml webgo ./charts/webgo
+#+end_src
+*** Clean Up
+#+begin_src shell
+helm uninstall webgo
+#+end_src

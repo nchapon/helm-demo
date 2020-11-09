@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webgo-pod
+  labels:
+    app: webgo-demo
+spec:
+  containers:
+  - name: webgo
+    image: nchapon/webgo:1.0.0
+    ports:
+    - containerPort: 8888
